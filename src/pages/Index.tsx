@@ -70,104 +70,209 @@ const Index = () => {
     { date: 'Sun', admissions: 30, discharges: 35, transfers: 7 },
   ];
   
-  const mockAlerts = [
-    {
-      id: '1',
-      message: 'ER at maximum capacity. Diverting incoming patients.',
-      priority: 'critical' as AlertPriority,
-      timestamp: new Date(Date.now() - 1000 * 60 * 10), // 10 minutes ago
-      department: 'Emergency Room'
-    },
-    {
-      id: '2',
-      message: 'Two ventilators need maintenance in ICU.',
-      priority: 'warning' as AlertPriority,
-      timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
-      department: 'ICU'
-    },
-    {
-      id: '3',
-      message: 'Dr. Johnson has called in sick. Shift needs coverage.',
-      priority: 'warning' as AlertPriority,
-      timestamp: new Date(Date.now() - 1000 * 60 * 45), // 45 minutes ago
-      department: 'Pediatrics'
-    },
-    {
-      id: '4',
-      message: 'Monthly hygiene inspection completed successfully.',
-      priority: 'info' as AlertPriority,
-      timestamp: new Date(Date.now() - 1000 * 60 * 60), // 1 hour ago
-      department: 'Administration'
-    },
-    {
-      id: '5',
-      message: 'Patient #1452 in critical condition, needs specialist attention.',
-      priority: 'critical' as AlertPriority,
-      timestamp: new Date(Date.now() - 1000 * 60 * 20), // 20 minutes ago 
-      department: 'ICU'
+  const getAlerts = () => {
+    if (locale === 'en') {
+      return [
+        {
+          id: '1',
+          message: 'ER at maximum capacity. Diverting incoming patients.',
+          priority: 'critical' as AlertPriority,
+          timestamp: new Date(Date.now() - 1000 * 60 * 10), // 10 minutes ago
+          department: 'Emergency Room'
+        },
+        {
+          id: '2',
+          message: 'Two ventilators need maintenance in ICU.',
+          priority: 'warning' as AlertPriority,
+          timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
+          department: 'ICU'
+        },
+        {
+          id: '3',
+          message: 'Dr. Johnson has called in sick. Shift needs coverage.',
+          priority: 'warning' as AlertPriority,
+          timestamp: new Date(Date.now() - 1000 * 60 * 45), // 45 minutes ago
+          department: 'Pediatrics'
+        },
+        {
+          id: '4',
+          message: 'Monthly hygiene inspection completed successfully.',
+          priority: 'info' as AlertPriority,
+          timestamp: new Date(Date.now() - 1000 * 60 * 60), // 1 hour ago
+          department: 'Administration'
+        },
+        {
+          id: '5',
+          message: 'Patient #1452 in critical condition, needs specialist attention.',
+          priority: 'critical' as AlertPriority,
+          timestamp: new Date(Date.now() - 1000 * 60 * 20), // 20 minutes ago 
+          department: 'ICU'
+        }
+      ];
+    } else {
+      return [
+        {
+          id: '1',
+          message: 'غرفة الطوارئ بلغت الحد الأقصى للسعة. تحويل المرضى القادمين.',
+          priority: 'critical' as AlertPriority,
+          timestamp: new Date(Date.now() - 1000 * 60 * 10), // 10 minutes ago
+          department: 'غرفة الطوارئ'
+        },
+        {
+          id: '2',
+          message: 'جهازا تنفس صناعي بحاجة إلى صيانة في العناية المركزة.',
+          priority: 'warning' as AlertPriority,
+          timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
+          department: 'العناية المركزة'
+        },
+        {
+          id: '3',
+          message: 'د. علي مريض اليوم. المناوبة تحتاج إلى تغطية.',
+          priority: 'warning' as AlertPriority,
+          timestamp: new Date(Date.now() - 1000 * 60 * 45), // 45 minutes ago
+          department: 'طب الأطفال'
+        },
+        {
+          id: '4',
+          message: 'تم الانتهاء من فحص النظافة الشهري بنجاح.',
+          priority: 'info' as AlertPriority,
+          timestamp: new Date(Date.now() - 1000 * 60 * 60), // 1 hour ago
+          department: 'الإدارة'
+        },
+        {
+          id: '5',
+          message: 'المريض رقم #1452 في حالة حرجة، يحتاج إلى عناية متخصصة.',
+          priority: 'critical' as AlertPriority,
+          timestamp: new Date(Date.now() - 1000 * 60 * 20), // 20 minutes ago 
+          department: 'العناية المركزة'
+        }
+      ];
     }
-  ];
+  };
+  
+  const mockAlerts = getAlerts();
 
-  const mockDepartmentStatus = [
-    {
-      id: '1',
-      name: 'Emergency Room',
-      status: 'critical' as const,
-      waitTime: 45,
-      activeStaff: 12,
-      totalPatients: 35
-    },
-    {
-      id: '2',
-      name: 'ICU',
-      status: 'busy' as const,
-      waitTime: 0,
-      activeStaff: 8,
-      totalPatients: 12
-    },
-    {
-      id: '3',
-      name: 'Cardiology',
-      status: 'normal' as const,
-      waitTime: 10,
-      activeStaff: 5,
-      totalPatients: 18
-    },
-    {
-      id: '4',
-      name: 'Pediatrics',
-      status: 'normal' as const,
-      waitTime: 15,
-      activeStaff: 7,
-      totalPatients: 22
-    },
-    {
-      id: '5',
-      name: 'Surgery',
-      status: 'busy' as const,
-      waitTime: 30,
-      activeStaff: 10,
-      totalPatients: 8
-    },
-    {
-      id: '6',
-      name: 'Maternity',
-      status: 'normal' as const,
-      waitTime: 5,
-      activeStaff: 6,
-      totalPatients: 14
+  const getDepartmentStatus = () => {
+    if (locale === 'en') {
+      return [
+        {
+          id: '1',
+          name: 'Emergency Room',
+          status: 'critical' as const,
+          waitTime: 45,
+          activeStaff: 12,
+          totalPatients: 35
+        },
+        {
+          id: '2',
+          name: 'ICU',
+          status: 'busy' as const,
+          waitTime: 0,
+          activeStaff: 8,
+          totalPatients: 12
+        },
+        {
+          id: '3',
+          name: 'Cardiology',
+          status: 'normal' as const,
+          waitTime: 10,
+          activeStaff: 5,
+          totalPatients: 18
+        },
+        {
+          id: '4',
+          name: 'Pediatrics',
+          status: 'normal' as const,
+          waitTime: 15,
+          activeStaff: 7,
+          totalPatients: 22
+        },
+        {
+          id: '5',
+          name: 'Surgery',
+          status: 'busy' as const,
+          waitTime: 30,
+          activeStaff: 10,
+          totalPatients: 8
+        },
+        {
+          id: '6',
+          name: 'Maternity',
+          status: 'normal' as const,
+          waitTime: 5,
+          activeStaff: 6,
+          totalPatients: 14
+        }
+      ];
+    } else {
+      return [
+        {
+          id: '1',
+          name: 'غرفة الطوارئ',
+          status: 'critical' as const,
+          waitTime: 45,
+          activeStaff: 12,
+          totalPatients: 35
+        },
+        {
+          id: '2',
+          name: 'العناية المركزة',
+          status: 'busy' as const,
+          waitTime: 0,
+          activeStaff: 8,
+          totalPatients: 12
+        },
+        {
+          id: '3',
+          name: 'أمراض القلب',
+          status: 'normal' as const,
+          waitTime: 10,
+          activeStaff: 5,
+          totalPatients: 18
+        },
+        {
+          id: '4',
+          name: 'طب الأطفال',
+          status: 'normal' as const,
+          waitTime: 15,
+          activeStaff: 7,
+          totalPatients: 22
+        },
+        {
+          id: '5',
+          name: 'الجراحة',
+          status: 'busy' as const,
+          waitTime: 30,
+          activeStaff: 10,
+          totalPatients: 8
+        },
+        {
+          id: '6',
+          name: 'الولادة',
+          status: 'normal' as const,
+          waitTime: 5,
+          activeStaff: 6,
+          totalPatients: 14
+        }
+      ];
     }
-  ];
+  };
+
+  const mockDepartmentStatus = getDepartmentStatus();
 
   // User data
   const user = {
-    name: 'Dr. Sarah Chen',
-    role: 'Hospital Administrator',
+    name: locale === 'en' ? 'Dr. Sarah Chen' : 'د. فاطمة حسن',
+    role: locale === 'en' ? 'Hospital Administrator' : 'مدير المستشفى',
     avatar: '',
   };
 
   // Dashboard title based on language
   const dashboardTitle = locale === 'en' ? 'Hospital Dashboard' : 'لوحة معلومات المستشفى';
+  
+  // Section titles
+  const departmentStatusTitle = locale === 'en' ? 'Department Status' : 'حالة الأقسام';
+  const alertsTitle = locale === 'en' ? 'Alerts & Notifications' : 'التنبيهات والإشعارات';
 
   return (
     <div className="flex h-screen overflow-hidden" dir={direction}>
@@ -217,13 +322,13 @@ const Index = () => {
             
             {/* Departments Status */}
             <h2 className="mb-4 mt-6 text-xl font-semibold">
-              {locale === 'en' ? 'Department Status' : 'حالة الأقسام'}
+              {departmentStatusTitle}
             </h2>
             <DepartmentGrid departments={mockDepartmentStatus} />
             
             {/* Alerts */}
             <h2 className="mb-4 mt-6 text-xl font-semibold">
-              {locale === 'en' ? 'Alerts & Notifications' : 'التنبيهات والإشعارات'}
+              {alertsTitle}
             </h2>
             <AlertFeed alerts={mockAlerts} />
           </div>

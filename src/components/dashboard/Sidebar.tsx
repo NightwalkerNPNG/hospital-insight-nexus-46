@@ -29,57 +29,70 @@ const Sidebar = ({ className }: SidebarProps) => {
   const { locale, changeLocale } = useLocale();
   const [collapsed, setCollapsed] = useState(false);
   
-  const mainNavItems = [
-    {
-      title: 'Dashboard',
-      icon: <LayoutDashboard size={20} />,
-      href: '/',
-    },
-    {
-      title: 'Patients',
-      icon: <Users size={20} />,
-      href: '/patients',
-    },
-    {
-      title: 'Staff',
-      icon: <UserRound size={20} />,
-      href: '/staff',
-    },
-    {
-      title: 'Appointments',
-      icon: <Calendar size={20} />,
-      href: '/appointments',
-    },
-    {
-      title: 'Departments',
-      icon: <Hospital size={20} />,
-      href: '/departments',
-    },
-  ];
-
-  const secondaryNavItems = [
-    {
-      title: 'Monitoring',
-      icon: <Monitor size={20} />,
-      href: '/monitoring',
-    },
-    {
-      title: 'Alerts',
-      icon: <Bell size={20} />,
-      href: '/alerts',
-    },
-    {
-      title: 'Reports',
-      icon: <FileText size={20} />,
-      href: '/reports',
-    },
-    {
-      title: 'Activity',
-      icon: <Clock size={20} />,
-      href: '/activity',
-    },
-  ];
-
+  // Translate menu items based on locale
+  const getMenuItems = () => {
+    const mainNavItems = [
+      {
+        title: locale === 'en' ? 'Dashboard' : 'لوحة المعلومات',
+        icon: <LayoutDashboard size={20} />,
+        href: '/',
+      },
+      {
+        title: locale === 'en' ? 'Patients' : 'المرضى',
+        icon: <Users size={20} />,
+        href: '/patients',
+      },
+      {
+        title: locale === 'en' ? 'Staff' : 'الموظفون',
+        icon: <UserRound size={20} />,
+        href: '/staff',
+      },
+      {
+        title: locale === 'en' ? 'Appointments' : 'المواعيد',
+        icon: <Calendar size={20} />,
+        href: '/appointments',
+      },
+      {
+        title: locale === 'en' ? 'Departments' : 'الأقسام',
+        icon: <Hospital size={20} />,
+        href: '/departments',
+      },
+    ];
+    
+    const secondaryNavItems = [
+      {
+        title: locale === 'en' ? 'Monitoring' : 'المراقبة',
+        icon: <Monitor size={20} />,
+        href: '/monitoring',
+      },
+      {
+        title: locale === 'en' ? 'Alerts' : 'التنبيهات',
+        icon: <Bell size={20} />,
+        href: '/alerts',
+      },
+      {
+        title: locale === 'en' ? 'Reports' : 'التقارير',
+        icon: <FileText size={20} />,
+        href: '/reports',
+      },
+      {
+        title: locale === 'en' ? 'Activity' : 'النشاط',
+        icon: <Clock size={20} />,
+        href: '/activity',
+      },
+    ];
+    
+    return { mainNavItems, secondaryNavItems };
+  };
+  
+  const { mainNavItems, secondaryNavItems } = getMenuItems();
+  
+  const managementLabel = locale === 'en' ? 'Management' : 'الإدارة';
+  const darkModeText = locale === 'en' ? 'Dark Mode' : 'الوضع المظلم';
+  const lightModeText = locale === 'en' ? 'Light Mode' : 'الوضع المضيء';
+  const arabicText = locale === 'en' ? 'Arabic' : 'العربية';
+  const englishText = locale === 'en' ? 'English' : 'الإنجليزية';
+  
   return (
     <div
       className={cn(
@@ -92,7 +105,7 @@ const Sidebar = ({ className }: SidebarProps) => {
         {!collapsed && (
           <div className="flex flex-1 items-center gap-2 font-semibold text-sidebar-foreground">
             <Hospital size={24} />
-            <span>Hospital Nexus</span>
+            <span>{locale === 'en' ? 'Hospital Nexus' : 'نكسَس المستشفى'}</span>
           </div>
         )}
         {collapsed && (
@@ -129,7 +142,7 @@ const Sidebar = ({ className }: SidebarProps) => {
           
           <div className="pt-2">
             <div className="pl-3 text-xs font-semibold uppercase text-sidebar-foreground/60">
-              {!collapsed && "Management"}
+              {!collapsed && managementLabel}
             </div>
             <nav className="mt-2 space-y-1">
               {secondaryNavItems.map((item) => (
@@ -161,7 +174,7 @@ const Sidebar = ({ className }: SidebarProps) => {
               {theme === 'light' ? '🌙' : '☀️'}
               {!collapsed && (
                 <span className="ml-2">
-                  {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+                  {theme === 'light' ? darkModeText : lightModeText}
                 </span>
               )}
             </Button>
@@ -175,7 +188,7 @@ const Sidebar = ({ className }: SidebarProps) => {
               {locale === 'en' ? '🇦🇪' : '🇺🇸'}
               {!collapsed && (
                 <span className="ml-2">
-                  {locale === 'en' ? 'Arabic' : 'English'}
+                  {locale === 'en' ? arabicText : englishText}
                 </span>
               )}
             </Button>
