@@ -88,19 +88,19 @@ const BedOccupancyHeatmap: React.FC<BedOccupancyHeatmapProps> = ({ locale }) => 
     <div>
       <div className="mb-4 flex flex-wrap gap-4 items-center">
         <div className="flex items-center gap-2">
-          <span className="inline-block h-4 w-4 bg-green-100 border border-green-200"></span>
+          <span className="inline-block h-4 w-4 bg-green-500/20 border border-green-500"></span>
           <span className="text-sm text-muted-foreground">
             {locale === 'en' ? 'Available' : 'متاح'}
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="inline-block h-4 w-4 bg-blue-100 border border-blue-200"></span>
+          <span className="inline-block h-4 w-4 bg-blue-500/20 border border-blue-500"></span>
           <span className="text-sm text-muted-foreground">
             {locale === 'en' ? 'Occupied' : 'مشغول'}
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="inline-block h-4 w-4 bg-red-100 border border-red-200"></span>
+          <span className="inline-block h-4 w-4 bg-red-500/20 border border-red-500"></span>
           <span className="text-sm text-muted-foreground">
             {locale === 'en' ? 'Critical' : 'حرج'}
           </span>
@@ -122,15 +122,15 @@ const BedOccupancyHeatmap: React.FC<BedOccupancyHeatmapProps> = ({ locale }) => 
                 <Card 
                   key={bed.id} 
                   className={`p-3 h-24 cursor-pointer transition-shadow hover:shadow-md ${
-                    !bed.occupied ? 'bg-green-50' : 
-                    bed.critical ? 'bg-red-50' : 'bg-blue-50'
+                    !bed.occupied ? 'bg-green-100 text-green-950 border-green-300' : 
+                    bed.critical ? 'bg-red-100 text-red-950 border-red-300' : 'bg-blue-100 text-blue-950 border-blue-300'
                   }`}
                 >
                   <div className="flex flex-col h-full">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-medium">{bed.id}</span>
                       {bed.occupied && (
-                        <Badge className={bed.critical ? 'bg-red-500' : 'bg-blue-500'}>
+                        <Badge className={bed.critical ? 'bg-red-600 text-white' : 'bg-blue-600 text-white'}>
                           {bed.critical 
                             ? (locale === 'en' ? 'Critical' : 'حرج')
                             : (locale === 'en' ? 'Occupied' : 'مشغول')
@@ -141,7 +141,7 @@ const BedOccupancyHeatmap: React.FC<BedOccupancyHeatmapProps> = ({ locale }) => 
                     {bed.occupied && (
                       <div className="mt-auto">
                         <p className="text-sm font-medium truncate">{bed.patientName}</p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs">
                           {locale === 'en' ? 'Since:' : 'منذ:'} {bed.admissionTime}
                         </p>
                       </div>

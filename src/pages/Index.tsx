@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Sidebar from '@/components/dashboard/Sidebar';
 import Header from '@/components/dashboard/Header';
@@ -10,6 +9,7 @@ import DepartmentGrid from '@/components/dashboard/DepartmentGrid';
 import { Users, Calendar, Hospital, MonitorCheck } from 'lucide-react';
 import { useLocale } from '@/hooks/useLocale';
 import { AlertPriority } from '@/components/dashboard/AlertFeed';
+import AddPatientButton from '@/components/patients/AddPatientButton';
 
 const Index = () => {
   const { locale, direction } = useLocale();
@@ -273,6 +273,7 @@ const Index = () => {
   // Section titles
   const departmentStatusTitle = locale === 'en' ? 'Department Status' : 'حالة الأقسام';
   const alertsTitle = locale === 'en' ? 'Alerts & Notifications' : 'التنبيهات والإشعارات';
+  const patientsTitle = locale === 'en' ? 'Patients' : 'المرضى';
 
   return (
     <div className="flex h-screen overflow-hidden" dir={direction}>
@@ -318,6 +319,12 @@ const Index = () => {
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <OccupancyChart departments={mockDepartments} />
               <PatientFlowChart data={mockPatientFlow} />
+            </div>
+            
+            {/* Patients section with Add Patient button */}
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">{patientsTitle}</h2>
+              <AddPatientButton locale={locale} />
             </div>
             
             {/* Departments Status */}

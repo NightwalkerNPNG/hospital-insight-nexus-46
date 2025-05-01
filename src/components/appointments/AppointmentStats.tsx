@@ -23,6 +23,10 @@ const AppointmentStats: React.FC<AppointmentStatsProps> = ({ locale }) => {
     { name: locale === 'en' ? 'No-show' : 'لم يحضر', value: 8 },
   ];
 
+  // Custom colors for bars
+  const typeColors = ['#3b82f6', '#8b5cf6', '#10b981', '#f97316'];
+  const statusColors = ['#3b82f6', '#10b981', '#f43f5e', '#f59e0b'];
+
   return (
     <div className="space-y-6">
       <Card>
@@ -40,12 +44,23 @@ const AppointmentStats: React.FC<AppointmentStatsProps> = ({ locale }) => {
           <div className="h-80 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={appointmentTypeData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="name" tick={{ fill: '#6b7280' }} />
+                <YAxis tick={{ fill: '#6b7280' }} />
+                <Tooltip
+                  contentStyle={{ 
+                    backgroundColor: '#ffffff', 
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '0.375rem'
+                  }}
+                />
                 <Legend />
-                <Bar dataKey="value" fill="var(--primary)" name={locale === 'en' ? 'Count' : 'العدد'} />
+                <Bar 
+                  dataKey="value" 
+                  name={locale === 'en' ? 'Count' : 'العدد'}
+                  fill="var(--primary)"
+                  radius={[4, 4, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -67,12 +82,23 @@ const AppointmentStats: React.FC<AppointmentStatsProps> = ({ locale }) => {
           <div className="h-80 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={appointmentStatusData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="name" tick={{ fill: '#6b7280' }} />
+                <YAxis tick={{ fill: '#6b7280' }} />
+                <Tooltip
+                  contentStyle={{ 
+                    backgroundColor: '#ffffff', 
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '0.375rem'
+                  }}
+                />
                 <Legend />
-                <Bar dataKey="value" fill="#8884d8" name={locale === 'en' ? 'Count' : 'العدد'} />
+                <Bar 
+                  dataKey="value" 
+                  name={locale === 'en' ? 'Count' : 'العدد'} 
+                  fill="#8884d8"
+                  radius={[4, 4, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>

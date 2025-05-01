@@ -10,7 +10,7 @@ interface Alert {
   message: string;
   priority: AlertPriority;
   timestamp: Date;
-  department: string; // This is required as it's used in the component
+  department: string;
 }
 
 interface AlertFeedProps {
@@ -18,6 +18,12 @@ interface AlertFeedProps {
 }
 
 const AlertFeed = ({ alerts }: AlertFeedProps) => {
+  // Sort alerts by priority (critical first, then warning, then info)
+  const sortedAlerts = [...alerts].sort((a, b) => {
+    const priorityOrder = { critical: 0, warning: 1, info: 2 };
+    return priorityOrder[a.priority] - priorityOrder[b.priority];
+  });
+
   const getAlertIcon = (priority: AlertPriority) => {
     switch (priority) {
       case 'critical':
@@ -56,8 +62,8 @@ const AlertFeed = ({ alerts }: AlertFeedProps) => {
       </CardHeader>
       <CardContent className="max-h-[400px] overflow-y-auto">
         <div className="space-y-3">
-          {alerts.length > 0 ? (
-            alerts.map((alert) => (
+          {sortedAlerts.length > 0 ? (
+            sortedAlerts.map((alert) => (
               <div 
                 key={alert.id} 
                 className={`alert-item ${getAlertClass(alert.priority)}`}
