@@ -25,31 +25,29 @@ const MainLayout: React.FC<MainLayoutProps> = ({ title, children }) => {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      {/* Desktop sidebar */}
+      {/* Desktop sidebar - always rendered but hidden on mobile */}
       <Sidebar className="hidden md:block" />
       
-      {/* Mobile sidebar */}
-      {isMobile && (
-        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-          <SheetTrigger asChild>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="md:hidden absolute top-3 left-3 z-50"
-            >
-              <Menu />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-4/5 max-w-[300px]">
-            <Sidebar className="w-full h-full border-none" />
-          </SheetContent>
-        </Sheet>
-      )}
+      {/* Mobile sidebar - only rendered when open */}
+      <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+        <SheetTrigger asChild>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="md:hidden fixed top-4 left-4 z-50"
+          >
+            <Menu />
+            <span className="sr-only">Toggle menu</span>
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="p-0 w-4/5 max-w-[300px]">
+          <Sidebar className="w-full h-full border-none" />
+        </SheetContent>
+      </Sheet>
       
       <div className="flex flex-1 flex-col overflow-hidden">
         <Header title={title} user={user} unreadNotifications={3} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 pt-16 md:pt-4">
           {children}
         </main>
       </div>

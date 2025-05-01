@@ -54,3 +54,17 @@
     align-items: flex-start;
   }
 }
+
+/* Fix text visibility issues in light backgrounds */
+.tabs-content {
+  color: #333;
+}
+
+/* Ensure text contrast in appointment tabs */
+[data-state="active"] {
+  color: #ffffff;
+}
+
+[data-state="inactive"] {
+  color: #333333;
+}
