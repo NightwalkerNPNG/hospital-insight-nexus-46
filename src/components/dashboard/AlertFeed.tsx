@@ -10,7 +10,7 @@ interface Alert {
   message: string;
   priority: AlertPriority;
   timestamp: Date;
-  department: string;
+  department: string; // This is required as it's used in the component
 }
 
 interface AlertFeedProps {

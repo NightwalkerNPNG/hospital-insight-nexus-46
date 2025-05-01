@@ -18,7 +18,9 @@ export interface Department {
   totalBeds: number;
   occupiedBeds: number;
   activeStaff: number;
+  patientCount?: number;
   description?: string;
+  icon?: React.ElementType;
 }
 
 const Departments = () => {

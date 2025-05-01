@@ -53,7 +53,7 @@ export interface Alert {
   details?: string;
   status: AlertStatusType;
   assignedTo?: string;
-  department?: string; // Changed to optional with the ? mark
+  department: string; // Making this required to match AlertFeed's expected type
 }
 
 const Alerts = () => {
