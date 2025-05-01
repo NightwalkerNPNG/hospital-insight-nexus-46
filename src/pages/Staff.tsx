@@ -257,7 +257,7 @@ const generateStaffData = (locale: 'en' | 'ar') => {
       performance: 95,
       employmentDate: "2018-11-05",
       bio: "الممرضة نورا لديها 15 عاماً من الخبرة في تمريض الأطفال. حاصلة على شهادة في دعم الحياة المتقدم للأطفال وإنعاش حديثي الولادة.",
-      qualifications: ["بكالوريوس في التمريض، جامعة الملك سعود", "ماجستير ف�� التمريض، جامعة القاهرة", "شهادة في تمريض الأطفال"],
+      qualifications: ["بكالوريوس في التمريض، جامعة الملك سعود", "ماجستير ف��� التمريض، جامعة القاهرة", "شهادة في تمريض الأطفال"],
       shifts: [
         { date: "2025-04-29", time: "7:00 ص - 7:00 م", department: "قسم الأطفال" },
         { date: "2025-04-30", time: "7:00 ص - 7:00 م", department: "قسم الأطفال" },
@@ -609,7 +609,7 @@ const Staff = () => {
                 <h3 className="text-lg font-medium mb-4">
                   {locale === 'en' ? 'Staff by Department' : 'الموظفون حسب القسم'}
                 </h3>
-                <div className="h-64">
+                <div className="h-[400px] overflow-y-auto">
                   <div className="h-full">
                     {departmentData.map((item, index) => (
                       <div key={item.department} className="mb-4">
@@ -636,7 +636,7 @@ const Staff = () => {
                 <h3 className="text-lg font-medium mb-4">
                   {locale === 'en' ? 'Staff by Role' : 'الموظفون حسب الدور'}
                 </h3>
-                <div className="h-64">
+                <div className="h-[400px] overflow-y-auto">
                   <div className="h-full">
                     {roleData.map((item, index) => (
                       <div key={item.role} className="mb-4">
