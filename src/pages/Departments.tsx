@@ -1,260 +1,191 @@
 
 import React, { useState } from 'react';
-import Sidebar from '@/components/dashboard/Sidebar';
-import Header from '@/components/dashboard/Header';
-import { useLocale } from '@/hooks/useLocale';
-import { 
-  Card, 
-  CardContent, 
-  CardHeader, 
-  CardTitle 
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import MainLayout from "@/layouts/MainLayout";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { 
-  Plus, 
-  Search, 
-  Filter, 
-  Edit, 
-  Users, 
-  Bed, 
-  Building,
-  User
-} from 'lucide-react';
-import DepartmentGrid from '@/components/dashboard/DepartmentGrid';
+import { Badge } from "@/components/ui/badge";
+import { User, Users, HospitalIcon, BarChart2 } from 'lucide-react';
 import { DepartmentDetails } from '@/components/departments/DepartmentDetails';
-import { departmentData } from '@/data/departmentData';
 import DepartmentChart from '@/components/departments/DepartmentChart';
+import { useLocale } from '@/hooks/useLocale';
 
 export interface Department {
   id: string;
   name: string;
   head: string;
   headTitle: string;
+  status: 'normal' | 'busy' | 'critical';
   totalBeds: number;
   occupiedBeds: number;
-  totalStaff: number;
-  patientCount: number;
-  status: 'stable' | 'overloaded' | 'understaffed';
-  icon?: React.ReactNode;
+  activeStaff: number;
   description?: string;
 }
 
 const Departments = () => {
-  const { locale, direction } = useLocale();
-  const [searchTerm, setSearchTerm] = useState('');
+  const { locale } = useLocale();
   const [selectedDepartment, setSelectedDepartment] = useState<Department | null>(null);
-  const [statusFilter, setStatusFilter] = useState<string>('all');
   
-  // User data
-  const user = {
-    name: locale === 'en' ? 'Dr. Sarah Chen' : 'د. فاطمة حسن',
-    role: locale === 'en' ? 'Hospital Administrator' : 'مدير المستشفى',
-    avatar: '',
+  // Sample departments data
+  const departments: Department[] = [
+    {
+      id: 'cardiology',
+      name: locale === 'en' ? 'Cardiology' : 'قسم القلب',
+      head: locale === 'en' ? 'Dr. Sarah Chen' : 'د. سارة تشن',
+      headTitle: locale === 'en' ? 'Head of Cardiology' : 'رئيس قسم القلب',
+      status: 'busy',
+      totalBeds: 30,
+      occupiedBeds: 25,
+      activeStaff: 12,
+      description: locale === 'en' ? 'Specializes in diagnosing and treating heart diseases and conditions.' : 'متخصص في تشخيص وعلاج أمراض وحالات القلب.'
+    },
+    {
+      id: 'icu',
+      name: locale === 'en' ? 'Intensive Care Unit' : 'وحدة العناية المركزة',
+      head: locale === 'en' ? 'Dr. Michael Brown' : 'د. مايكل براون',
+      headTitle: locale === 'en' ? 'ICU Director' : 'مدير العناية المركزة',
+      status: 'critical',
+      totalBeds: 15,
+      occupiedBeds: 14,
+      activeStaff: 20,
+      description: locale === 'en' ? 'Provides intensive care medicine for critically ill patients.' : 'يقدم طب العناية المركزة للمرضى في حالة حرجة.'
+    },
+    {
+      id: 'emergency',
+      name: locale === 'en' ? 'Emergency Department' : 'قسم الطوارئ',
+      head: locale === 'en' ? 'Dr. James Wilson' : 'د. جيمس ويلسون',
+      headTitle: locale === 'en' ? 'ER Chief' : 'رئيس الطوارئ',
+      status: 'busy',
+      totalBeds: 20,
+      occupiedBeds: 15,
+      activeStaff: 18,
+      description: locale === 'en' ? 'Provides acute care for patients requiring immediate attention.' : 'يقدم الرعاية الحادة للمرضى الذين يتطلبون اهتمامًا فوريًا.'
+    },
+    {
+      id: 'pediatrics',
+      name: locale === 'en' ? 'Pediatrics' : 'طب الأطفال',
+      head: locale === 'en' ? 'Dr. Lisa Martinez' : 'د. ليسا مارتينيز',
+      headTitle: locale === 'en' ? 'Pediatrics Lead' : 'رئيس طب الأطفال',
+      status: 'normal',
+      totalBeds: 25,
+      occupiedBeds: 18,
+      activeStaff: 15,
+      description: locale === 'en' ? 'Specializes in medical care for infants, children, and adolescents.' : 'متخصص في الرعاية الطبية للرضع والأطفال والمراهقين.'
+    },
+    {
+      id: 'neurology',
+      name: locale === 'en' ? 'Neurology' : 'طب الأعصاب',
+      head: locale === 'en' ? 'Dr. Robert Davis' : 'د. روبرت ديفيس',
+      headTitle: locale === 'en' ? 'Neurology Head' : 'رئيس طب الأعصاب',
+      status: 'normal',
+      totalBeds: 20,
+      occupiedBeds: 12,
+      activeStaff: 10,
+      description: locale === 'en' ? 'Diagnosis and treatment of disorders of the nervous system.' : 'تشخيص وعلاج اضطرابات الجهاز العصبي.'
+    },
+    {
+      id: 'orthopedics',
+      name: locale === 'en' ? 'Orthopedics' : 'جراحة العظام',
+      head: locale === 'en' ? 'Dr. Emily Johnson' : 'د. إيميلي جونسون',
+      headTitle: locale === 'en' ? 'Orthopedics Lead' : 'رئيس جراحة العظام',
+      status: 'busy',
+      totalBeds: 25,
+      occupiedBeds: 20,
+      activeStaff: 14,
+      description: locale === 'en' ? 'Concerned with the correction of deformities of bones and muscles.' : 'يهتم بتصحيح تشوهات العظام والعضلات.'
+    },
+  ];
+
+  const handleDepartmentClick = (department: Department) => {
+    setSelectedDepartment(department);
   };
 
   const pageTitle = locale === 'en' ? 'Departments' : 'الأقسام';
-
-  // Filter departments based on search and status
-  const filteredDepartments = departmentData.filter(dept => {
-    const matchesSearch = 
-      dept.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      dept.head.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesStatus = statusFilter === 'all' || dept.status === statusFilter;
-    
-    return matchesSearch && matchesStatus;
-  });
-
-  // Calculate hospital-wide stats
-  const totalBeds = departmentData.reduce((acc, dept) => acc + dept.totalBeds, 0);
-  const occupiedBeds = departmentData.reduce((acc, dept) => acc + dept.occupiedBeds, 0);
-  const occupancyRate = Math.round((occupiedBeds / totalBeds) * 100);
-  const totalStaff = departmentData.reduce((acc, dept) => acc + dept.totalStaff, 0);
-  const totalPatients = departmentData.reduce((acc, dept) => acc + dept.patientCount, 0);
-
-  // Handle department click
-  const handleDepartmentClick = (dept: Department) => {
-    setSelectedDepartment(dept);
+  const overviewTitle = locale === 'en' ? 'Departments Overview' : 'نظرة عامة على الأقسام';
+  
+  // Status badge color mapping
+  const getStatusColor = (status: Department['status']) => {
+    switch (status) {
+      case 'normal': return 'bg-green-500 text-white';
+      case 'busy': return 'bg-yellow-500 text-white';
+      case 'critical': return 'bg-red-500 text-white';
+    }
   };
 
   return (
-    <div className="flex h-screen overflow-hidden" dir={direction}>
-      <Sidebar />
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <Header 
-          title={pageTitle}
-          user={user}
-          unreadNotifications={3}
-        />
-        <main className="flex-1 overflow-y-auto bg-background p-6">
-          <div className="mx-auto max-w-7xl space-y-6">
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <Card className="p-4">
-                <div className="flex items-center">
-                  <div className="bg-primary/10 rounded-full p-2 mr-3">
-                    <Building size={20} className="text-primary" />
+    <MainLayout title={pageTitle}>
+      <div className="space-y-6">
+        <h2 className="text-2xl font-semibold tracking-tight">{overviewTitle}</h2>
+        
+        {/* Department Cards */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {departments.map((dept) => (
+            <Card 
+              key={dept.id} 
+              className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+              onClick={() => handleDepartmentClick(dept)}
+            >
+              <CardContent className="p-0">
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold">{dept.name}</h3>
+                    <Badge className={getStatusColor(dept.status)}>
+                      {locale === 'en' 
+                        ? dept.status.charAt(0).toUpperCase() + dept.status.slice(1)
+                        : dept.status === 'normal' ? 'عادي' 
+                          : dept.status === 'busy' ? 'مزدحم' 
+                          : 'حرج'
+                      }
+                    </Badge>
                   </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">
-                      {locale === 'en' ? 'Total Departments' : 'إجمالي الأقسام'}
-                    </p>
-                    <p className="text-2xl font-bold">{departmentData.length}</p>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className="flex items-center">
+                      <HospitalIcon size={16} className="mr-2 text-muted-foreground" />
+                      <span className="text-sm">
+                        {dept.occupiedBeds}/{dept.totalBeds} {locale === 'en' ? 'beds' : 'سرير'}
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <Users size={16} className="mr-2 text-muted-foreground" />
+                      <span className="text-sm">
+                        {dept.activeStaff} {locale === 'en' ? 'staff' : 'موظف'}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </Card>
-              
-              <Card className="p-4">
-                <div className="flex items-center">
-                  <div className="bg-green-500/10 rounded-full p-2 mr-3">
-                    <Bed size={20} className="text-green-500" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">
-                      {locale === 'en' ? 'Bed Occupancy' : 'إشغال الأسرة'}
-                    </p>
-                    <p className="text-2xl font-bold">
-                      {occupiedBeds}/{totalBeds} ({occupancyRate}%)
-                    </p>
-                  </div>
-                </div>
-              </Card>
-              
-              <Card className="p-4">
-                <div className="flex items-center">
-                  <div className="bg-blue-500/10 rounded-full p-2 mr-3">
-                    <Users size={20} className="text-blue-500" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">
-                      {locale === 'en' ? 'Total Staff' : 'إجمالي الموظفين'}
-                    </p>
-                    <p className="text-2xl font-bold">{totalStaff}</p>
+                  
+                  <div className="flex items-center">
+                    <User size={16} className="mr-2 text-muted-foreground" />
+                    <div>
+                      <p className="text-sm font-medium">{dept.head}</p>
+                      <p className="text-xs text-muted-foreground">{dept.headTitle}</p>
+                    </div>
                   </div>
                 </div>
-              </Card>
-              
-              <Card className="p-4">
-                <div className="flex items-center">
-                  <div className="bg-orange-500/10 rounded-full p-2 mr-3">
-                    <User size={20} className="text-orange-500" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">
-                      {locale === 'en' ? 'Current Patients' : 'المرضى الحاليون'}
-                    </p>
-                    <p className="text-2xl font-bold">{totalPatients}</p>
-                  </div>
-                </div>
-              </Card>
-            </div>
-
-            {/* Charts and visualization */}
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <DepartmentChart locale={locale} />
-            </div>
-            
-            {/* Search and filters */}
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div className="relative w-full md:w-64">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder={locale === 'en' ? "Search departments..." : "البحث في الأقسام..."}
-                  className="pl-8"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm">
-                  <Plus size={16} className="mr-1" />
-                  {locale === 'en' ? 'Add Department' : 'إضافة قسم'}
-                </Button>
                 
-                <div className="flex items-center gap-2">
-                  <Filter size={16} className="text-muted-foreground" />
-                  <select
-                    className="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm"
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                  >
-                    <option value="all">{locale === 'en' ? 'All Status' : 'كل الحالات'}</option>
-                    <option value="stable">{locale === 'en' ? 'Stable' : 'مستقر'}</option>
-                    <option value="overloaded">{locale === 'en' ? 'Overloaded' : 'زائد الحمولة'}</option>
-                    <option value="understaffed">{locale === 'en' ? 'Understaffed' : 'نقص الموظفين'}</option>
-                  </select>
+                <div className="bg-muted/20 px-6 py-3 flex justify-end">
+                  <Button variant="ghost" size="sm" className="text-xs">
+                    <BarChart2 size={14} className="mr-1" />
+                    {locale === 'en' ? 'View Details' : 'عرض التفاصيل'}
+                  </Button>
                 </div>
-              </div>
-            </div>
-            
-            {/* Department Grid */}
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filteredDepartments.map((dept) => (
-                <Card 
-                  key={dept.id} 
-                  className="cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => handleDepartmentClick(dept)}
-                >
-                  <CardHeader className="pb-2">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-md font-medium">{dept.name}</CardTitle>
-                      <Badge 
-                        className={
-                          dept.status === 'stable' ? 'bg-green-500' :
-                          dept.status === 'overloaded' ? 'bg-red-500' : 'bg-yellow-500'
-                        }
-                      >
-                        {locale === 'en' 
-                          ? dept.status.charAt(0).toUpperCase() + dept.status.slice(1)
-                          : dept.status === 'stable' ? 'مستقر' 
-                            : dept.status === 'overloaded' ? 'زائد الحمولة' 
-                            : 'نقص الموظفين'
-                        }
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-2 gap-3 text-sm">
-                      <div>
-                        <p className="text-muted-foreground">{locale === 'en' ? 'Head' : 'الرئيس'}</p>
-                        <p className="font-medium">{dept.head}</p>
-                        <p className="text-xs text-muted-foreground">{dept.headTitle}</p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">{locale === 'en' ? 'Beds' : 'الأسرة'}</p>
-                        <p className="font-medium">
-                          {dept.occupiedBeds}/{dept.totalBeds} ({Math.round((dept.occupiedBeds/dept.totalBeds)*100)}%)
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">{locale === 'en' ? 'Staff' : 'الموظفون'}</p>
-                        <p className="font-medium">{dept.totalStaff}</p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">{locale === 'en' ? 'Patients' : 'المرضى'}</p>
-                        <p className="font-medium">{dept.patientCount}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </main>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        
+        {/* Department Charts */}
+        <DepartmentChart locale={locale} />
+        
+        {/* Department Details Sheet */}
+        {selectedDepartment && (
+          <DepartmentDetails 
+            department={selectedDepartment}
+            onClose={() => setSelectedDepartment(null)}
+            locale={locale}
+          />
+        )}
       </div>
-      
-      {/* Department Details Panel */}
-      {selectedDepartment && (
-        <DepartmentDetails 
-          department={selectedDepartment} 
-          onClose={() => setSelectedDepartment(null)}
-          locale={locale}
-        />
-      )}
-    </div>
+    </MainLayout>
   );
 };
 

@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { X, User, Users, Clock, Heart, ArrowRight, BarChart2, Bed, CalendarClock } from 'lucide-react';
+import { X, User, Users, Clock, Heart, Edit, BarChart2, Bed, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Department } from '@/pages/Departments';
