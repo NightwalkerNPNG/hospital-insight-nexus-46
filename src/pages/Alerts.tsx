@@ -53,7 +53,7 @@ export interface Alert {
   details?: string;
   status: AlertStatusType;
   assignedTo?: string;
-  department?: string; // Added department property to fix typechecking error
+  department?: string; // Changed to optional with the ? mark
 }
 
 const Alerts = () => {
