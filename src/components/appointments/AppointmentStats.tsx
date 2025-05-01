@@ -1,7 +1,19 @@
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend, 
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell
+} from 'recharts';
 
 interface AppointmentStatsProps {
   locale: 'en' | 'ar';
@@ -23,12 +35,43 @@ const AppointmentStats: React.FC<AppointmentStatsProps> = ({ locale }) => {
     { name: locale === 'en' ? 'No-show' : 'لم يحضر', value: 8 },
   ];
 
-  // Custom colors for bars
+  // Monthly appointment trend data
+  const monthlyTrendData = [
+    { name: locale === 'en' ? 'Jan' : 'يناير', count: 45 },
+    { name: locale === 'en' ? 'Feb' : 'فبراير', count: 52 },
+    { name: locale === 'en' ? 'Mar' : 'مارس', count: 49 },
+    { name: locale === 'en' ? 'Apr' : 'أبريل', count: 63 },
+    { name: locale === 'en' ? 'May' : 'مايو', count: 58 }
+  ];
+
+  // Custom colors for charts
   const typeColors = ['#3b82f6', '#8b5cf6', '#10b981', '#f97316'];
   const statusColors = ['#3b82f6', '#10b981', '#f43f5e', '#f59e0b'];
+  const RADIAN = Math.PI / 180;
+
+  // Custom label for pie chart
+  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name }: any) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    
+    return (
+      <text 
+        x={x} 
+        y={y} 
+        fill="white" 
+        textAnchor={x > cx ? 'start' : 'end'} 
+        dominantBaseline="central"
+        fontSize={12}
+        fontWeight="bold"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <Card>
         <CardHeader>
           <CardTitle>
@@ -43,25 +86,35 @@ const AppointmentStats: React.FC<AppointmentStatsProps> = ({ locale }) => {
         <CardContent>
           <div className="h-80 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={appointmentTypeData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="name" tick={{ fill: '#6b7280' }} />
-                <YAxis tick={{ fill: '#6b7280' }} />
-                <Tooltip
-                  contentStyle={{ 
-                    backgroundColor: '#ffffff', 
+              <PieChart>
+                <Pie
+                  data={appointmentTypeData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={renderCustomizedLabel}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {appointmentTypeData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={typeColors[index % typeColors.length]} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  formatter={(value: any) => [
+                    `${value} ${locale === 'en' ? 'appointments' : 'مواعيد'}`, 
+                    locale === 'en' ? 'Count' : 'العدد'
+                  ]}
+                  contentStyle={{
+                    backgroundColor: '#ffffff',
                     border: '1px solid #e5e7eb',
-                    borderRadius: '0.375rem'
+                    borderRadius: '0.375rem',
+                    padding: '8px'
                   }}
                 />
-                <Legend />
-                <Bar 
-                  dataKey="value" 
-                  name={locale === 'en' ? 'Count' : 'العدد'}
-                  fill="var(--primary)"
-                  radius={[4, 4, 0, 0]}
-                />
-              </BarChart>
+                <Legend layout="horizontal" verticalAlign="bottom" align="center" />
+              </PieChart>
             </ResponsiveContainer>
           </div>
         </CardContent>
@@ -81,7 +134,48 @@ const AppointmentStats: React.FC<AppointmentStatsProps> = ({ locale }) => {
         <CardContent>
           <div className="h-80 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={appointmentStatusData}>
+              <BarChart data={appointmentStatusData} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis type="number" tick={{ fill: '#6b7280' }} />
+                <YAxis dataKey="name" type="category" tick={{ fill: '#6b7280' }} width={80} />
+                <Tooltip
+                  contentStyle={{ 
+                    backgroundColor: '#ffffff', 
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '0.375rem'
+                  }}
+                />
+                <Legend />
+                <Bar 
+                  dataKey="value" 
+                  name={locale === 'en' ? 'Count' : 'العدد'}
+                  radius={[0, 4, 4, 0]}
+                >
+                  {appointmentStatusData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={statusColors[index % statusColors.length]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="md:col-span-2">
+        <CardHeader>
+          <CardTitle>
+            {locale === 'en' ? 'Monthly Appointment Trend' : 'اتجاه المواعيد الشهرية'}
+          </CardTitle>
+          <CardDescription>
+            {locale === 'en' 
+              ? 'Number of appointments over the past months' 
+              : 'عدد المواعيد على مدار الأشهر الماضية'}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="h-80 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={monthlyTrendData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis dataKey="name" tick={{ fill: '#6b7280' }} />
                 <YAxis tick={{ fill: '#6b7280' }} />
@@ -94,9 +188,9 @@ const AppointmentStats: React.FC<AppointmentStatsProps> = ({ locale }) => {
                 />
                 <Legend />
                 <Bar 
-                  dataKey="value" 
-                  name={locale === 'en' ? 'Count' : 'العدد'} 
-                  fill="#8884d8"
+                  dataKey="count" 
+                  name={locale === 'en' ? 'Appointments' : 'المواعيد'}
+                  fill="#9b87f5" 
                   radius={[4, 4, 0, 0]}
                 />
               </BarChart>
