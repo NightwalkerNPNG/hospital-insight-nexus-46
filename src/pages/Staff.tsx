@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Sidebar from '@/components/dashboard/Sidebar';
 import Header from '@/components/dashboard/Header';
@@ -258,7 +257,7 @@ const generateStaffData = (locale: 'en' | 'ar') => {
       performance: 95,
       employmentDate: "2018-11-05",
       bio: "الممرضة نورا لديها 15 عاماً من الخبرة في تمريض الأطفال. حاصلة على شهادة في دعم الحياة المتقدم للأطفال وإنعاش حديثي الولادة.",
-      qualifications: ["بكالوريوس في التمريض، جامعة الملك سعود", "ماجستير في التمريض، جامعة القاهرة", "شهادة في تمريض الأطفال"],
+      qualifications: ["بكالوريوس في التمريض، جامعة الملك سعود", "ماجستير ف�� التمريض، جامعة القاهرة", "شهادة في تمريض الأطفال"],
       shifts: [
         { date: "2025-04-29", time: "7:00 ص - 7:00 م", department: "قسم الأطفال" },
         { date: "2025-04-30", time: "7:00 ص - 7:00 م", department: "قسم الأطفال" },
@@ -528,7 +527,7 @@ const Staff = () => {
               <Card className="p-4">
                 <div className="flex items-center">
                   <div className="bg-status-warning/10 rounded-full p-2 mr-3">
-                    <Hospital size={20} className="text-status-warning" />
+                    <FileText size={20} className="text-status-warning" />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">
