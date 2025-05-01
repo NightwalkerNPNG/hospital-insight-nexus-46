@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Sidebar from '@/components/dashboard/Sidebar';
 import Header from '@/components/dashboard/Header';
@@ -54,6 +53,7 @@ export interface Alert {
   details?: string;
   status: AlertStatusType;
   assignedTo?: string;
+  department?: string; // Added department property to fix typechecking error
 }
 
 const Alerts = () => {

@@ -52,13 +52,13 @@ const AppointmentCalendarView = ({
   };
 
   // Get day class for the calendar
-  const getDayClass = (day: Date) => {
-    const isAppointmentDate = appointmentDates.some(d => isSameDay(d, day));
-    if (isAppointmentDate && isToday(day)) {
+  const getDayClass = (date: Date) => {
+    const isAppointmentDate = appointmentDates.some(d => isSameDay(d, date));
+    if (isAppointmentDate && isToday(date)) {
       return 'bg-blue-100 text-blue-900 font-bold';
     } else if (isAppointmentDate) {
       return 'bg-blue-50 font-medium';
-    } else if (isToday(day)) {
+    } else if (isToday(date)) {
       return 'bg-orange-50 text-orange-900 font-medium';
     }
     return '';
@@ -75,16 +75,11 @@ const AppointmentCalendarView = ({
           modifiersClassNames={{
             today: "bg-orange-100 text-orange-900 font-bold",
           }}
-          components={{
-            Day: ({ day, ...props }) => {
-              const className = getDayClass(day);
-              return (
-                <button 
-                  {...props} 
-                  className={`${props.className} ${className}`}
-                />
-              );
-            }
+          modifiers={{
+            appointment: appointmentDates
+          }}
+          modifiersStyles={{
+            appointment: { fontWeight: "bold" }
           }}
         />
       </div>
