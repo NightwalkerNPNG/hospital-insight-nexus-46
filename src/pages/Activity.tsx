@@ -176,6 +176,39 @@ const Activity = () => {
   // Get unique modules for filter
   const modules = ['all', ...new Set(activities.map(activity => activity.module))];
 
+  // Get module badge color
+  const getModuleBadgeColor = (module: string) => {
+    // Apply color based on module name
+    switch (module.toLowerCase()) {
+      case 'dashboard':
+      case 'system':
+        return 'bg-blue-100 text-blue-700 border-blue-200';
+      case 'patients':
+      case 'المرضى':
+        return 'bg-green-100 text-green-700 border-green-200';
+      case 'appointments':
+      case 'المواعيد':
+        return 'bg-indigo-100 text-indigo-700 border-indigo-200';
+      case 'staff':
+      case 'الموظفين':
+        return 'bg-purple-100 text-purple-700 border-purple-200';
+      case 'monitoring':
+      case 'المراقبة':
+        return 'bg-orange-100 text-orange-700 border-orange-200';
+      case 'alerts':
+      case 'التنبيهات':
+        return 'bg-red-100 text-red-700 border-red-200';
+      case 'reports':
+      case 'التقارير':
+        return 'bg-gray-100 text-gray-700 border-gray-200';
+      case 'departments':
+      case 'الأقسام':
+        return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+      default:
+        return 'bg-primary/10 text-primary border-primary/20';
+    }
+  };
+
   return (
     <div className="flex h-screen overflow-hidden" dir={direction}>
       <Sidebar />
@@ -326,7 +359,7 @@ const Activity = () => {
                     <TableCell>{activity.user}</TableCell>
                     <TableCell>{activity.action}</TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">
+                      <Badge variant="outline" className={getModuleBadgeColor(activity.module)}>
                         {activity.module}
                       </Badge>
                     </TableCell>
