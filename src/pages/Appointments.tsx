@@ -11,6 +11,7 @@ import { useLocale } from '@/hooks/useLocale';
 import { appointmentData } from '@/data/appointmentData';
 import { Button } from "@/components/ui/button";
 import AddPatientButton from '@/components/patients/AddPatientButton';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export interface Appointment {
   id: string;
@@ -32,6 +33,7 @@ export type AppointmentType = 'consultation' | 'follow-up' | 'procedure' | 'emer
 
 const Appointments = () => {
   const { locale } = useLocale();
+  const isMobile = useIsMobile();
   const [activeTab, setActiveTab] = useState<string>('calendar');
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(startOfToday());
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
@@ -59,10 +61,11 @@ const Appointments = () => {
         {/* Header actions */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <h1 className="text-2xl font-bold">{pageTitle}</h1>
-          <div className="flex space-x-2">
+          <div className="flex flex-wrap gap-2">
             <Button 
               onClick={() => setIsNewAppointmentModalOpen(true)}
               className="flex items-center gap-1"
+              size={isMobile ? "sm" : "default"}
             >
               <Plus size={16} />
               {newAppointmentText}
@@ -76,15 +79,17 @@ const Appointments = () => {
           <TabsList className="grid w-full max-w-md grid-cols-2">
             <TabsTrigger value="calendar" className="flex items-center gap-2">
               <Calendar size={16} />
-              {calendarTab}
+              {!isMobile && calendarTab}
+              {isMobile && <span className="sr-only">{calendarTab}</span>}
             </TabsTrigger>
             <TabsTrigger value="stats" className="flex items-center gap-2">
               <Grid size={16} />
-              {statsTab}
+              {!isMobile && statsTab}
+              {isMobile && <span className="sr-only">{statsTab}</span>}
             </TabsTrigger>
           </TabsList>
           
-          <TabsContent value="calendar" className="mt-6">
+          <TabsContent value="calendar" className="mt-4 md:mt-6">
             <AppointmentCalendarView
               appointments={appointmentData}
               selectedDate={selectedDate}
@@ -94,7 +99,7 @@ const Appointments = () => {
             />
           </TabsContent>
           
-          <TabsContent value="stats" className="mt-6">
+          <TabsContent value="stats" className="mt-4 md:mt-6">
             <AppointmentStats locale={locale} />
           </TabsContent>
         </Tabs>

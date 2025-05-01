@@ -1,8 +1,10 @@
+
+/* Reset default styles that might cause issues on mobile */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 
 .logo {
@@ -39,4 +41,16 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Add responsive utilities */
+@media (max-width: 768px) {
+  .nav-link span {
+    font-size: 0.875rem;
+  }
+  
+  .card-header-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
