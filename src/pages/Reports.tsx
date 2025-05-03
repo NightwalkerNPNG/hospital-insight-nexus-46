@@ -189,70 +189,92 @@ const Reports = () => {
                   </div>
                 </div>
                 
-                {/* Patient Admissions Chart */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>
-                      {locale === 'en' ? 'Patient Admissions (Last 7 Days)' : 'دخول المرضى (آخر 7 أيام)'}
-                    </CardTitle>
-                    <CardDescription>
-                      {locale === 'en' 
-                        ? 'Daily patient admission count across all departments' 
-                        : 'عدد دخول المرضى اليومي عبر جميع الأقسام'
-                      }
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-80 w-full">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={admissionData}>
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="name" />
-                          <YAxis />
-                          <Tooltip />
-                          <Legend />
-                          <Bar 
-                            dataKey="value" 
-                            fill="var(--primary)" 
-                            name={locale === 'en' ? 'Admissions' : 'حالات الدخول'} 
-                          />
-                        </BarChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </CardContent>
-                </Card>
-                
-                {/* Department Capacities */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>
-                      {locale === 'en' ? 'Department Capacity Usage' : 'استخدام سعة الأقسام'}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-80 w-full">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={departmentData}>
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="name" />
-                          <YAxis />
-                          <Tooltip />
-                          <Legend />
-                          <Bar 
-                            dataKey="patients" 
-                            fill="var(--primary)" 
-                            name={locale === 'en' ? 'Current Patients' : 'المرضى الحاليين'} 
-                          />
-                          <Bar 
-                            dataKey="capacity" 
-                            fill="#8884d8" 
-                            name={locale === 'en' ? 'Total Capacity' : 'السعة الإجمالية'} 
-                          />
-                        </BarChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </CardContent>
-                </Card>
+               {/* Patient Admissions Chart */}
+<Card>
+  <CardHeader>
+    <CardTitle>
+      {locale === 'en' ? 'Patient Admissions (Last 7 Days)' : 'دخول المرضى (آخر 7 أيام)'}
+    </CardTitle>
+    <CardDescription>
+      {locale === 'en' 
+        ? 'Daily patient admission count across all departments' 
+        : 'عدد دخول المرضى اليومي عبر جميع الأقسام'}
+    </CardDescription>
+  </CardHeader>
+  <CardContent>
+    <div className="h-80 w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={admissionData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip 
+            contentStyle={{ 
+              backgroundColor: '#1f2937',  // Tailwind gray-800
+              color: '#f9fafb',            // Tailwind gray-100
+              border: '1px solid #4b5563', // Tailwind gray-600
+              borderRadius: '0.375rem',
+              fontSize: '0.875rem'
+            }}
+            labelStyle={{ 
+              color: '#d1d5db'             // Tailwind gray-300
+            }}
+          />
+          <Legend />
+          <Bar 
+            dataKey="value" 
+            fill="var(--primary)" 
+            name={locale === 'en' ? 'Admissions' : 'حالات الدخول'} 
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  </CardContent>
+</Card>
+
+{/* Department Capacities */}
+<Card>
+  <CardHeader>
+    <CardTitle>
+      {locale === 'en' ? 'Department Capacity Usage' : 'استخدام سعة الأقسام'}
+    </CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="h-80 w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={departmentData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip 
+            contentStyle={{ 
+              backgroundColor: '#1f2937',
+              color: '#f9fafb',
+              border: '1px solid #4b5563',
+              borderRadius: '0.375rem',
+              fontSize: '0.875rem'
+            }}
+            labelStyle={{ 
+              color: '#d1d5db'
+            }}
+          />
+          <Legend />
+          <Bar 
+            dataKey="patients" 
+            fill="var(--primary)" 
+            name={locale === 'en' ? 'Current Patients' : 'المرضى الحاليين'} 
+          />
+          <Bar 
+            dataKey="capacity" 
+            fill="#8884d8" 
+            name={locale === 'en' ? 'Total Capacity' : 'السعة الإجمالية'} 
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  </CardContent>
+</Card>
+
                 
                 {/* Doctor Consultations */}
                 <Card>
