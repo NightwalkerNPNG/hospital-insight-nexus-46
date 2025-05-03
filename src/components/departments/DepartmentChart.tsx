@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
@@ -19,7 +18,6 @@ interface DepartmentChartProps {
 }
 
 const DepartmentChart = ({ locale }: DepartmentChartProps) => {
-  // Sample data for bed occupancy trend
   const bedOccupancyData = [
     {
       name: locale === 'en' ? 'Mon' : 'الإثنين',
@@ -85,8 +83,7 @@ const DepartmentChart = ({ locale }: DepartmentChartProps) => {
       Neurology: 60
     },
   ];
-  
-  // Sample data for staff distribution
+
   const staffDistributionData = [
     { name: locale === 'en' ? 'ICU' : 'العناية المركزة', value: 45 },
     { name: locale === 'en' ? 'Cardiology' : 'القلب', value: 35 },
@@ -95,9 +92,28 @@ const DepartmentChart = ({ locale }: DepartmentChartProps) => {
     { name: locale === 'en' ? 'Orthopedics' : 'العظام', value: 25 },
     { name: locale === 'en' ? 'Neurology' : 'الأعصاب', value: 20 },
   ];
-  
+
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82ca9d'];
-  
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-2 rounded shadow border text-sm text-black">
+          <p className="font-semibold text-gray-900 mb-1">
+            {`${locale === 'en' ? 'Day' : 'اليوم'}: ${label}`}
+          </p>
+          {payload.map((entry: any, index: number) => (
+            <p key={`item-${index}`} className="text-xs" style={{ color: entry.color }}>
+              {entry.name}: {entry.value}%
+            </p>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <>
       <Card>
@@ -119,10 +135,7 @@ const DepartmentChart = ({ locale }: DepartmentChartProps) => {
                     position: 'insideLeft' 
                   }}
                 />
-                <Tooltip 
-                  formatter={(value) => [`${value}%`, '']}
-                  labelFormatter={(label) => `${locale === 'en' ? 'Day' : 'اليوم'}: ${label}`}
-                />
+                <Tooltip content={<CustomTooltip />} />
                 <Legend />
                 <Bar dataKey="ICU" fill="#0088FE" name={locale === 'en' ? 'ICU' : 'العناية المركزة'} />
                 <Bar dataKey="Cardiology" fill="#00C49F" name={locale === 'en' ? 'Cardiology' : 'القلب'} />
