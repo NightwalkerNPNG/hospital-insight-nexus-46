@@ -105,7 +105,7 @@ const Sidebar = ({ className }: SidebarProps) => {
         {!collapsed && (
           <div className="flex flex-1 items-center gap-2 font-semibold text-sidebar-foreground">
             <Hospital size={24} />
-            <span>{locale === 'en' ? 'Hospital Nexus' : 'نكسَس المستشفى'}</span>
+            <span>{locale === 'en' ? 'Hospital Nexus' : 'مستشفى الحياة'}</span>
           </div>
         )}
         {collapsed && (
