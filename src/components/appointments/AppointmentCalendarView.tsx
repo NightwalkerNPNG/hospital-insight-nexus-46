@@ -46,20 +46,21 @@ const AppointmentCalendarView = ({
     switch (status) {
       case 'scheduled':
       case 'consultation':
-        return 'border-blue-500 bg-blue-50';
+        return 'border-blue-500 bg-blue-100 text-blue-800';
       case 'completed':
       case 'follow-up':
-        return 'border-green-500 bg-green-50';
+        return 'border-green-500 bg-green-100 text-green-800';
       case 'cancelled':
       case 'emergency':
-        return 'border-red-500 bg-red-50';
+        return 'border-red-500 bg-red-100 text-red-800';
       case 'no-show':
       case 'procedure':
-        return 'border-yellow-500 bg-yellow-50';
+        return 'border-yellow-500 bg-yellow-100 text-yellow-800';
       default:
-        return 'border-gray-300';
+        return 'border-gray-300 bg-gray-100 text-gray-800';
     }
   };
+  
   
 
   // Get day class for the calendar
