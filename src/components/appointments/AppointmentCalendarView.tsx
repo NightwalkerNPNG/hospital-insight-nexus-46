@@ -103,7 +103,7 @@ const AppointmentCalendarView = ({
               >
                 <div className="flex justify-between items-center">
                   <span className="font-medium text-pink-500">{appointment.time}</span>
-                  <span className="text-xs capitalize px-2 py-1 rounded-full ${getStatusColor(appointment.status)}">
+                  <span className="text-xs capitalize px-2 py-1 rounded-full ${getStatusColor(appointment.type)}">
                     {appointment.type}
                   </span>
                 </div>
