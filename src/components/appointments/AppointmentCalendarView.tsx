@@ -103,7 +103,7 @@ const AppointmentCalendarView = ({
               >
                 <div className="flex justify-between items-center">
                   <span className="font-medium">{appointment.time}</span>
-                  <span className="text-xs capitalize px-2 py-1 rounded-full bg-gray-100">
+                  <span className="text-xs capitalize px-2 py-1 rounded-full bg-green-500">
                     {appointment.type}
                   </span>
                 </div>
