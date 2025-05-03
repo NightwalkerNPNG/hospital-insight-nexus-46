@@ -41,15 +41,26 @@ const AppointmentCalendarView = ({
   }, [appointments, selectedDate]);
 
   // Function to get status color
+  
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'scheduled' || 'consultation': return 'border-blue-500 bg-blue-50';
-      case 'completed' || 'follow-up': return 'border-green-500 bg-green-50';
-      case 'cancelled' || 'emergency': return 'border-red-500 bg-red-50';
-      case 'no-show' || 'procedure': return 'border-yellow-500 bg-yellow-50';
-      default: return 'border-gray-300';
+      case 'scheduled':
+      case 'consultation':
+        return 'border-blue-500 bg-blue-50';
+      case 'completed':
+      case 'follow-up':
+        return 'border-green-500 bg-green-50';
+      case 'cancelled':
+      case 'emergency':
+        return 'border-red-500 bg-red-50';
+      case 'no-show':
+      case 'procedure':
+        return 'border-yellow-500 bg-yellow-50';
+      default:
+        return 'border-gray-300';
     }
   };
+  
 
   // Get day class for the calendar
   const getDayClass = (date: Date) => {
