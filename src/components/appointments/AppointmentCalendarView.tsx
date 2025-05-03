@@ -102,12 +102,12 @@ const AppointmentCalendarView = ({
                 onClick={() => onAppointmentClick(appointment)}
               >
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">{appointment.time}</span>
-                  <span className="text-xs capitalize px-2 py-1 rounded-full bg-green-500">
+                  <span className="font-medium text-pink-500">{appointment.time}</span>
+                  <span className="text-xs capitalize px-2 py-1 rounded-full bg-gray-100">
                     {appointment.type}
                   </span>
                 </div>
-                <div className="mt-1">{appointment.patientName}</div>
+                <div className="mt-1 text-pink-500">{appointment.patientName}</div>
                 <div className="text-sm text-muted-foreground">
                   {appointment.doctorName} • {appointment.department}
                 </div>
