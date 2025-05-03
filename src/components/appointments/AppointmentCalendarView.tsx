@@ -43,10 +43,10 @@ const AppointmentCalendarView = ({
   // Function to get status color
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'scheduled': return 'border-blue-500 bg-blue-50';
-      case 'completed': return 'border-green-500 bg-green-50';
-      case 'cancelled': return 'border-red-500 bg-red-50';
-      case 'no-show': return 'border-yellow-500 bg-yellow-50';
+      case 'scheduled' || 'consultation': return 'border-blue-500 bg-blue-50';
+      case 'completed' || 'follow-up': return 'border-green-500 bg-green-50';
+      case 'cancelled' || 'emergency': return 'border-red-500 bg-red-50';
+      case 'no-show' || 'procedure': return 'border-yellow-500 bg-yellow-50';
       default: return 'border-gray-300';
     }
   };
