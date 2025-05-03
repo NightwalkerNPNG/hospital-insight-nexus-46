@@ -178,7 +178,7 @@ const AppointmentStats: React.FC<AppointmentStatsProps> = ({ locale }) => {
               <BarChart data={monthlyTrendData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis dataKey="name" tick={{ fill: '#6b7280' }} />
-                <YAxis tick={{ fill: '#6b7280' }} />
+                <YAxis tick={{ fill: '#1a57d1' }} />
                 <Tooltip
                   contentStyle={{ 
                     backgroundColor: '#ffffff', 
