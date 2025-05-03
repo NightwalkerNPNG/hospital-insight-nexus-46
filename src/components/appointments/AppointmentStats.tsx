@@ -140,7 +140,7 @@ const AppointmentStats: React.FC<AppointmentStatsProps> = ({ locale }) => {
                 <YAxis dataKey="name" type="category" tick={{ fill: '#6b7280' }} width={80} />
                 <Tooltip
                   contentStyle={{ 
-                    backgroundColor: '#ffffff', 
+                    backgroundColor: '#1a57d1', 
                     border: '1px solid #e5e7eb',
                     borderRadius: '0.375rem'
                   }}
@@ -178,10 +178,10 @@ const AppointmentStats: React.FC<AppointmentStatsProps> = ({ locale }) => {
               <BarChart data={monthlyTrendData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis dataKey="name" tick={{ fill: '#6b7280' }} />
-                <YAxis tick={{ fill: '#1a57d1' }} />
+                <YAxis tick={{ fill: '#6b7280' }} />
                 <Tooltip
                   contentStyle={{ 
-                    backgroundColor: '#ffffff', 
+                    backgroundColor: '#1a57d1', 
                     border: '1px solid #e5e7eb',
                     borderRadius: '0.375rem'
                   }}
